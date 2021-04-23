@@ -240,42 +240,49 @@ public class DbAction {
 	
 	
 	
-		
-//	public ArrayList<Bean> UpdateAction(){
+		public boolean UpdateAction() {
+			
+			PreparedStatement ps = null;
+			
+			try{
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				Connection conn_mysql = DriverManager.getConnection(url_mysql,id_mysql,pw_mysql);
+				@SuppressWarnings("unused")
+				Statement stmt_mysql = conn_mysql.createStatement();    // 검색에서만 쓰긴 하는데.. 혼동되니까 그냥 적음
+				
+				String A = "update userinfo set name = ?, telno = ?, address = ?, email = ?, relation = ? ";
+				String B = " where seqno = ? ";
+				
+				ps = conn_mysql.prepareStatement(A+B);
+				
+				ps.setString(1, name.trim());       // Address.java 에 private으로 되어있어서 오류가 되어있음. -> 메소드 파라미터에 넣거나 컨스트럭터에넣어줌.
+				ps.setString(2, telno.trim());		// 컨스트럭터 통해서 정보를 아예입력받은걸 필드 통해서 이쪽으로 공유받게 하는 방식을 사용
+				ps.setString(3, address.trim());
+				ps.setString(4, email.trim());
+				ps.setString(5, relation.trim());
+				ps.setInt(6, seqno);
+				ps.executeUpdate();
+				
+				conn_mysql.close();
+				
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+			
+			return true;
+			
+			
+			
+		}
+			
+			
+			
+			
+			
 //			
-//			ArrayList<Bean> beanList = new ArrayList<Bean>();	
-//			
-//			
-//			PreparedStatement ps = null;
 //      
 //			
-//			
-//			try{
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            Connection conn_mysql = DriverManager.getConnection(url_mysql,id_mysql,pw_mysql);
-//            @SuppressWarnings("unused")
-//			Statement stmt_mysql = conn_mysql.createStatement();    // 검색에서만 쓰긴 하는데.. 혼동되니까 그냥 적음
-//
-//            String A = "update userinfo set name = ?, telno = ?, address = ?, email = ?, relation = ? ";
-//            String B = " where seqno = ? ";
-//
-//            ps = conn_mysql.prepareStatement(A+B);
-//          
-//            ps.setString(1, name.trim());       // Address.java 에 private으로 되어있어서 오류가 되어있음. -> 메소드 파라미터에 넣거나 컨스트럭터에넣어줌.
-//            ps.setString(2, telno.trim());		// 컨스트럭터 통해서 정보를 아예입력받은걸 필드 통해서 이쪽으로 공유받게 하는 방식을 사용
-//            ps.setString(3, address.trim());
-//            ps.setString(4, email.trim());
-//            ps.setString(5, relation.trim());
-//            ps.executeUpdate();
-//
-//            conn_mysql.close();
-//            
-//            
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//		
-//	}
 //      PreparedStatement ps = null;
 //      try{
 //          Class.forName("com.mysql.cj.jdbc.Driver");

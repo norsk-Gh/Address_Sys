@@ -415,46 +415,30 @@ public class Address extends JFrame {
 		tfRelation.setText("");
 	}
 	
-	// 조건검색 실행 
-//	private void ConditionQueryAction(String ConditionQueryColumn) {
-//        String WhereDefault = "select seqno, name, telno, relation from userinfo where " + ConditionQueryColumn;
-//        String WhereDefault2 = " like '%" + tfSelection.getText() + "%'";
-//        try{
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            Connection conn_mysql = DriverManager.getConnection(url_mysql,id_mysql,pw_mysql);
-//            Statement stmt_mysql = conn_mysql.createStatement();
-//
-//            ResultSet rs = stmt_mysql.executeQuery(WhereDefault + WhereDefault2);
-//
-//            while(rs.next()){
-//                String[] qTxt = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)};
-//                Outer_Table.addRow(qTxt);
-//            }
-//            conn_mysql.close();
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
+	private void UpdateAction() {
 		
-//	}
-	
-	
-//	
-//	private void UpdateAction() {
-//		
-//
-//		String name = tfName.getText().trim();
-//		String telno = tfTelno.getText().trim();
-//		String address = tfAddress.getText().trim();
-//		String email = tfEmail.getText().trim();
-//		String relation = tfRelation.getText().trim();
-//		
-//		
-//		DbAction dbAction = new DbAction(name, telno, address, email, relation);
-//		
-//		
+		String name = tfName.getText().trim();
+		String telno = tfTelno.getText().trim();
+		String address = tfAddress.getText().trim();
+		String email = tfEmail.getText().trim();
+		String relation = tfRelation.getText().trim();
+		int seqno =  Integer.parseInt(tfSeqno.getText().trim());
 		
-//	}	
+		DbAction dbAction = new DbAction(seqno, name, telno, address, email, relation);
+		boolean msg = dbAction.UpdateAction();   // 잘 됐는지 안됐는지 체크
+		
+		if (msg == true) {
+			JOptionPane.showMessageDialog(this, tfName.getText()+" 님의 정보가 수정되었습니다",
+			"수정완료!",
+			JOptionPane.INFORMATION_MESSAGE);
+		}else {
+			JOptionPane.showMessageDialog(this, "DB자료 입력중 에러가 발생하였습니다.",
+			"Critical Error!",
+			JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		
+	}	
 //		
 	
 	// Data 수정
@@ -578,24 +562,24 @@ public class Address extends JFrame {
 //		
 	
 		
-//		// 수정일 경우
-//		if(rbUpdate.isSelected() == true) {
-//			int i_chk = insertFieldCheck();
-//			if(i_chk == 0){
-//				UpdateAction();
-//				TableInit();
-//				SearchAction();
-//				ClearColumn();
-//			}else {
-//				JOptionPane.showMessageDialog(this, "주소록 정보 수정 ! " + "\n" + 
-//						"Data를 입력하세요 하세요!",
-//						"주소록 정보", 
-//						JOptionPane.INFORMATION_MESSAGE);        			
-//				
-//			}			
-//			ScreenPartition();
-//		}
-//		
+		// 수정일 경우
+		if(rbUpdate.isSelected() == true) {
+			int i_chk = insertFieldCheck();
+			if(i_chk == 0){
+				UpdateAction();
+				TableInit();
+				SearchAction();
+				ClearColumn();
+			}else {
+				JOptionPane.showMessageDialog(this, "주소록 정보 수정 ! " + "\n" + 
+						"Data를 입력하세요 하세요!",
+						"주소록 정보", 
+						JOptionPane.INFORMATION_MESSAGE);        			
+				
+			}			
+			ScreenPartition();
+		}
+		
 		// 삭제일 경우
 		if(rbDelete.isSelected() == true) {
 			DeleteAction();
